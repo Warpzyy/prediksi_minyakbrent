@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brent Oil AI Prediction</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body{
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background:
+                linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)),
+                url('https://images.unsplash.com/photo-1513828583688-c52646db42da?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .container{
+            width: 90%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .left{
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .badge{
+            width: fit-content;
+            padding: 8px 18px;
+            border-radius: 999px;
+            background: rgba(37,99,235,0.2);
+            border: 1px solid rgba(59,130,246,0.4);
+            color: #93c5fd;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        h1{
+            font-size: 48px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        p{
+            color: #d1d5db;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .highlight{
+            color: #60a5fa;
+        }
+
+        form{
+            margin-top: 20px;
+        }
+
+        .input-box{
+            margin-bottom: 20px;
+        }
+
+        label{
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+
+        input{
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.08);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus{
+            border-color: #3b82f6;
+            box-shadow: 0 0 20px rgba(59,130,246,0.3);
+        }
+
+        button{
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover{
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37,99,235,0.4);
+        }
+
+        .result{
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .result h2{
+            font-size: 20px;
+            color: #60a5fa;
+        }
+
+        .right{
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #111827, #1e3a8a);
+        }
+
+        .card{
+            width: 280px;
+            height: 280px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .card h3{
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .card p{
+            font-size: 14px;
+            margin-bottom: 0;
+        }
+
+        .circle1,
+        .circle2{
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+        }
+
+        .circle1{
+            width: 200px;
+            height: 200px;
+            background: rgba(59,130,246,0.4);
+            top: 50px;
+            right: 50px;
+        }
+
+        .circle2{
+            width: 150px;
+            height: 150px;
+            background: rgba(147,197,253,0.3);
+            bottom: 40px;
+            left: 40px;
+        }
+
+        @media(max-width: 900px){
+
+            .container{
+                grid-template-columns: 1fr;
+            }
+
+            .right{
+                min-height: 300px;
+            }
+
+            h1{
+                font-size: 36px;
+            }
+
+            .left{
+                padding: 40px;
+            }
+
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="left">
+
+            <div class="badge">
+                Artificial Intelligence Prediction System
+            </div>
+
+            <h1>
+                Brent Oil <span class="highlight">Price Prediction</span>
+            </h1>
+
+            <p>
+                Sistem prediksi harga minyak Brent berbasis Artificial Intelligence menggunakan algoritma Machine Learning dan Deep Learning untuk menganalisis pola historis data minyak dunia.
+            </p>
+
+            <form action="/predict" method="POST">
+
+                <div class="input-box">
+                    <label>Masukkan Hari / Index Data</label>
+                    <input
+                        type="number"
+                        name="hari"
+                        placeholder="Contoh: 100"
+                        required
+                    >
+                </div>
+
+                <button type="submit">
+                    Prediksi Sekarang
+                </button>
+
+            </form>
+
+            {% if prediction_text %}
+            <div class="result">
+                <h2>{{ prediction_text }}</h2>
+            </div>
+            {% endif %}
+
+        </div>
+
+        <div class="right">
+
+            <div class="circle1"></div>
+            <div class="circle2"></div>
+
+            <div class="card">
+                <h3>AI Forecasting</h3>
+                <p>
+                    Implementasi Linear Regression, ANN, dan RNN/LSTM untuk prediksi harga minyak Brent secara akurat.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
