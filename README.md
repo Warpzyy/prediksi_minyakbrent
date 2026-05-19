@@ -1,24 +1,32 @@
-﻿# prediksi_minyakbrent
 # 📈 Analisis Komparatif Algoritma Machine Learning dan Deep Learning untuk Prediksi Harga Minyak Mentah Dunia (Brent Crude Oil)
 
 [![Web App Status](https://img.shields.io/badge/Deployment-Railway-blueviolet?style=for-the-badge&logo=railway)](https://www.prediksiminyakbrent.my.id)
 [![Python](https://img.shields.io/badge/Python-3.9+-blue?style=for-the-badge&logo=python)](https://www.python.org)
 [![Framework](https://img.shields.io/badge/Framework-Flask-black?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com/)
 
-Repositori ini memuat kode sumber, dataset, serta proses eksperimen komparatif untuk memprediksi harga minyak mentah global (**Brent Crude Oil**) menggunakan 5 pendekatan lintas paradigma (Statistik, Clustering, Neural Network Manual, ANN, dan Deep Learning Rekuren). Proyek ini diintegrasikan ke dalam interface web berbasis **Flask** dan di-deploy secara publik di infrastruktur cloud **Railway**.
+Repositori ini memuat kode sumber, dataset, serta proses eksperimen komparatif untuk memprediksi harga minyak mentah global (**Brent Crude Oil**). Menguji stabilitas 5 pendekatan lintas paradigma (Statistik, Clustering, Neural Network Manual, ANN, dan Deep Learning Rekuren). Seluruh sistem diintegrasikan ke dalam interface web berbasis **Flask** dan di-deploy menggunakan platform **Railway** dengan kustomisasi domain lokal.
 
 ---
 
 ## 👥 Identitas Peneliti / Mahasiswa
 * **Nama Lengkap:** Wifa Saputra
-* **NIM:** [Masukkan NIM Kamu di Sini]
-* **Mata Kuliah:** Praktikum Big Data dan Artificial Intelligence
-* **Status Tugas:** Ujian Tengah Semester (UTS) / Tugas Akhir Praktikum
+* **NIM:** 301240063
+* **Mata Kuliah:** KECERDASAN BUATAN
+* **Status Tugas:** Ujian Tengah Semester (UTS)
+
+---
+
+## 🌐 Arsitektur Distribusi & Integrasi Custom Domain
+Untuk memastikan aplikasi web Flask ini dapat diakses secara reliabel oleh publik dengan penamaan domain lokal yang profesional, dilakukan konfigurasi *Domain Name System* (DNS) pada panel **IDwebhost** yang diarahkan menuju infrastruktur produksi **Railway** dengan rincian arsitektur sebagai berikut:
+
+* **Footprint Domain Utama (`@`):** Diarahkan menggunakan **A Record** menuju *Static IP Platform* Railway (`20.119.57.240`) untuk menangani *traffic* langsung tanpa prefix.
+* **Subdomain Versi WWW (`www`):** Dikonfigurasi menggunakan **CNAME Record** yang di-alias-kan secara penuh ke *canonical name* target dari distribusi Railway (`uias98m1.up.railway.app`).
+* **Verifikasi Keamanan Automated SSL/TLS:** Manajemen pembuktian kepemilikan domain diintegrasikan menggunakan instruksi **TXT Record** lewat host `_railway-verify.www` demi mengaktifkan enkripsi enkapsulasi HTTPS otomatis pada sisi server.
 
 ---
 
 ## 🔬 Ringkasan Eksperimen & Perbandingan Algoritma
-Penelitian ini menguji stabilitas komparatif dari 5 algoritma berbeda menggunakan data runtun waktu (*univariate time-series*) sebanyak **9.011 baris data** pasar minyak Brent (1987 - 2022) dengan metrik evaluasi **MAE (Mean Absolute Error)** dan **RMSE (Root Mean Squared Error)**:
+Penelitian ini menguji stabilitas komparatif dari 5 algoritma berbeda menggunakan data runtun waktu (*univariate time-series*) pada dataset historis dengan metrik evaluasi **MAE (Mean Absolute Error)** dan **RMSE (Root Mean Squared Error)**:
 
 1. **Linear Regression:** Baseline model statistik menggunakan metode *Ordinary Least Squares*.
 2. **Artificial Neural Network (ANN):** Feed-forward MLP standar menggunakan optimasi Adam.
@@ -30,20 +38,24 @@ Penelitian ini menguji stabilitas komparatif dari 5 algoritma berbeda menggunaka
 
 ---
 
-## 📦 Struktur Repositori
-Folder di dalam repositori ini telah disusun secara modular untuk mempermudah replikasi sistem:
+## 📦 Struktur Repositori Resmi
+Daftar berkas di bawah ini disusun secara modular sesuai dengan struktur aktual di dalam repositori:
 
 ```text
 ├── data/
-│   └── brent_crude_oil_dataset.csv  # Dataset historis komoditas Brent (9.011 baris)
+│   └── BrentOilPrice.csv             # Dataset historis komoditas Brent Crude Oil
 ├── models/
-│   ├── lstm_model.h5                # Hasil ekspor biner model LSTM terbaik (Keras)
-│   └── scaler.pkl                   # Objek transformasi skala data (MinMaxScaler)
+│   ├── ann_model.h5                  # Hasil ekspor biner arsitektur model ANN
+│   ├── kmeans_model.pkl              # Hasil serialisasi model K-Means Clustering
+│   ├── linear_regression_model.pkl   # Hasil serialisasi model Linear Regression
+│   ├── lstm_model.h5                 # Hasil ekspor biner arsitektur model LSTM terbaik
+│   └── scaler.pkl                    # Objek transformasi skala data (MinMaxScaler)
 ├── notebooks/
-│   └── eda_dan_training.ipynb       # Jupyter Notebook proses EDA & Pelatihan 5 Model
+│   └── eda.ipynb                     # Jupyter Notebook proses EDA & Pelatihan 5 Model
 ├── templates/
-│   └── index.html                   # Antarmuka frontend web (HTML5 & Bootstrap 5)
-├── app.py                           # Kode utama backend Flask (Routing & Inference)
-├── Procfile                         # Konfigurasi manajemen proses pelayan server Railway
-├── requirements.txt                 # Daftar dependensi library Python
-└── README.md                        # Dokumentasi utama proyek
+│   └── index.html                    # Antarmuka frontend web (HTML5 & Bootstrap 5)
+├── .gitignore                        # Berkas konfigurasi pengabaian tracking Git
+├── app.py                            # Kode utama backend Flask (Routing & Inference)
+├── Procfile                          # Konfigurasi manajemen proses pelayan server Railway
+├── requirements.txt                  # Daftar dependensi library Python
+└── README.md                         # Dokumentasi utama proyek
